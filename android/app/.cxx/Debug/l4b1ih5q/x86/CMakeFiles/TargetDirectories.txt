@@ -1,0 +1,2 @@
+D:/7th Semester/FYP/2025_05_08/flutter_mediapipe/android/app/.cxx/Debug/l4b1ih5q/x86/CMakeFiles/edit_cache.dir
+D:/7th Semester/FYP/2025_05_08/flutter_mediapipe/android/app/.cxx/Debug/l4b1ih5q/x86/CMakeFiles/rebuild_cache.dir

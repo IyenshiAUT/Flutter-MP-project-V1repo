@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mediapipe/image_paint.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -72,6 +73,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void onPickImage() async {
+    // Request storage permission before picking image
+    var status = await Permission.storage.request();
+    if (!status.isGranted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text('Storage permission is required to pick images.')),
+      );
+      return;
+    }
     final result = await picker.pickImage(source: ImageSource.gallery);
     if (result != null) {
       setState(() {
@@ -95,7 +105,15 @@ class _MyHomePageState extends State<MyHomePage> {
               margin: const EdgeInsets.all(20.0),
               child: image == null
                   ? null
-                  : Image(image: FileImage(File(image!.path))),
+                  : Builder(
+                      builder: (context) {
+                        try {
+                          return Image(image: FileImage(File(image!.path)));
+                        } catch (e) {
+                          return Center(child: Text('Failed to load image.'));
+                        }
+                      },
+                    ),
             ),
             ElevatedButton(
               onPressed: onPickImage,
